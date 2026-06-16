@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Competition | IDSOL 2026</title>
+    <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="css/shared.css">
+    <style>
+        .olympiad-hero {
+            min-height: calc(100vh - var(--nav-height));
+            min-height: calc(100dvh - var(--nav-height));
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .olympiad-hero .page-title-section { text-align: center; margin: 0 0 40px; }
+        .olympiad-hero .hero-split { margin-bottom: 0; }
+
+        /* Page title */
+        .page-title-section { text-align: center; margin: 40px 0 60px; }
+        .page-title-section h1 { 
+            font-size: clamp(1.8rem, 8vw, 3.2rem); 
+            text-transform: uppercase; letter-spacing: clamp(4px, 2vw, 10px);
+            color: var(--node-bright); margin: 0;
+            display: inline-block;
+            background: linear-gradient(90deg, transparent, var(--node-blue), transparent);
+            background-size: 100% 1px; background-repeat: no-repeat; background-position: bottom;
+            padding-bottom: 15px;
+        }
+
+        /* Hero split */
+        .hero-split { display: grid; grid-template-columns: 1fr 1.2fr; align-items: stretch; margin-bottom: 60px; background: var(--glass-deep); border: 1px solid var(--border-bright); border-radius: 4px; overflow: hidden; backdrop-filter: blur(10px); }
+        .hero-visual { min-height: 250px; background-image: url('https://cdn.kb.institute/eto-2026/general/others/2024_ETO.JPG'); background-size: cover; background-position: center; }
+        .hero-text { padding: clamp(25px,5vw,50px); display: flex; align-items: center; background: rgba(156,233,255,0.03); }
+        .hero-text h1 { font-weight: 300; font-size: clamp(1.1rem,4vw,1.35rem); color: #d1d1d1; margin: 0; line-height: 1.6; text-transform: none; letter-spacing: normal; }
+        .hero-text b { color: var(--node-bright); font-weight: 600; }
+
+        /* Mission sequence */
+        .mission-sequence { display: flex; gap: 0; margin-bottom: 60px; min-height: 200px; }
+        .mission-box {
+            flex: 1; position: relative; background: var(--glass-deep); border: 1px solid var(--border-bright);
+            padding: 30px 50px 30px 30px; display: flex; flex-direction: column; justify-content: center;
+            clip-path: polygon(0% 0%, calc(100% - 40px) 0%, 100% 50%, calc(100% - 40px) 100%, 0% 100%, 40px 50%);
+            transition: all 0.4s ease; backdrop-filter: blur(10px);
+        }
+        .mission-box::before { content:""; position:absolute; left:0; top:0; width:42px; height:100%; background:var(--node-blue); opacity:0.4; clip-path:polygon(0% 0%,40px 50%,0% 100%,4px 100%,44px 50%,4px 0%); pointer-events:none; transition:all 0.3s ease; }
+        .mission-box:first-child { clip-path: polygon(0% 0%, calc(100% - 40px) 0%, 100% 50%, calc(100% - 40px) 100%, 0% 100%); }
+        .mission-box:first-child::before { display: none; }
+        .mission-box:last-child { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 40px 50%); padding-right: 30px; }
+        .mission-box:not(:first-child) { margin-left: -40px; padding-left: 70px; }
+        .mission-box h4 { color: var(--node-bright); text-transform: uppercase; letter-spacing: 2px; margin: 0 0 10px; font-size: 0.95rem; font-weight: 800; }
+        .mission-box p { margin: 0; font-size: 0.9rem; color: #ccc; font-weight: 300; line-height: 1.5; }
+        .stagger-1 { transition-delay: 0.1s; }
+        .stagger-2 { transition-delay: 0.2s; }
+        .stagger-3 { transition-delay: 0.3s; }
+
+        /* Stream arena */
+        .stream-arena { display: flex; flex-direction: column; gap: 20px; }
+        .arena-card { display: grid; grid-template-columns: 140px 1fr; background: var(--glass-deep); border: 1px solid var(--border-bright); border-radius: 4px; overflow: hidden; align-items: stretch; min-height: 150px; backdrop-filter: blur(10px); transition: border-color 0.3s ease; }
+        .arena-card:hover { border-color: var(--node-bright); }
+        .arena-label { display:flex; align-items:center; justify-content:center; background:rgba(74,125,255,0.1); font-size:1.4rem; font-weight:900; color:var(--node-bright); letter-spacing:3px; border-right:1px solid var(--border-muted); }
+        .arena-info { padding: 25px; display: flex; flex-direction: column; justify-content: center; }
+        .arena-info h3 { margin: 0 0 10px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--node-bright); font-size: 1.1rem; }
+        .arena-info p { margin: 0; font-size: 0.95rem; color: #bbb; line-height: 1.5; }
+
+        /* CTA */
+        .cta-section { text-align:center; padding:80px 20px 100px; }
+        .cta-title { font-size:clamp(1.8rem,7vw,2.4rem); letter-spacing:clamp(4px,1.8vw,8px); text-transform:uppercase; margin-bottom:40px; color:var(--node-bright); font-weight:900; }
+        .signup-btn { display:inline-block; background:var(--node-bright); color:var(--bg-darker); padding:clamp(14px,4vw,18px) clamp(32px,8vw,50px); border-radius:50px; text-decoration:none; text-transform:uppercase; letter-spacing:4px; font-weight:800; font-size:clamp(0.85rem,4vw,0.95rem); box-shadow:0 10px 30px rgba(156,233,255,0.2); transition:all 0.3s ease; border:1px solid var(--node-bright); }
+        .signup-btn:hover { transform:translateY(-3px); box-shadow:0 15px 40px rgba(156,233,255,0.4); background:#fff; }
+
+        @media (max-width:850px) {
+            .hero-split, .arena-card { grid-template-columns: 1fr; }
+            .arena-label { padding: 15px; border-right: none; border-bottom: 1px solid var(--border-muted); }
+            .mission-sequence { flex-direction:column; gap:15px; }
+            .mission-box { clip-path:none !important; padding:25px !important; margin:0 !important; border-radius:4px; }
+            .mission-box::before { display:none; }
+            .btn { min-width: 100%; padding: 14px 30px; font-size: 0.85rem; }
+        }
+        @media (max-width: 600px) { .container { padding: 15px; } .cta-section { padding: 60px 15px 80px; } }
+    </style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+
+<div class="page-content">
+<div class="container">
+
+    <div class="olympiad-hero">
+    <div class="page-title-section reveal"><h1>The Olympiad</h1></div>
+
+    <div class="hero-split reveal">
+        <div class="hero-visual"></div>
+        <div class="hero-text">
+            <h1>The <b>International Data Science Olympiad (IDSOL 2026)</b> is a design competition where students apply first principles to propose practical use cases for <b>Data Science and Artificial Intelligence (DSAI)</b>.</h1>
+        </div>
+    </div>
+    </div>
+
+    <div class="divider reveal"></div>
+
+    <div class="section-header reveal"><h2>Mission &amp; Vision</h2></div>
+
+    <div class="mission-sequence">
+        <div class="mission-box reveal stagger-1">
+            <h4>The Problem</h4>
+            <p>Traditional education often fails to test the complexities of real-world data application and architectural resilience.</p>
+        </div>
+        <div class="mission-box reveal stagger-2">
+            <h4>The Solution</h4>
+            <p>IDSOL 2026 provides a global stage for <b>Applied Intelligence</b>, where engineering rigor meets creative problem-solving.</p>
+        </div>
+        <div class="mission-box reveal stagger-3">
+            <h4>The Goal</h4>
+            <p>Bridging the gap between academic theory and enterprise-ready solutions through standardized benchmarking.</p>
+        </div>
+    </div>
+
+    <div class="divider reveal"></div>
+
+    <div class="section-header reveal"><h2>Competition Categories</h2></div>
+
+    <div class="stream-arena">
+        <div class="arena-card reveal stagger-1">
+            <div class="arena-label">ARC</div>
+            <div class="arena-info">
+                <h3>Solution Architecture</h3>
+                <p>A design-centric category focusing on the first principles of DSAI to architect resilient, large-scale data frameworks and infrastructures for enterprise and social impact.</p>
+            </div>
+        </div>
+        <div class="arena-card reveal stagger-2">
+            <div class="arena-label">DEV</div>
+            <div class="arena-info">
+                <h3>Solution Development</h3>
+                <p>An execution-focused category prioritizing technical engineering and modularity to build robust data applications, models, and integrated intelligence frameworks.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="cta-section reveal">
+        <h2 class="cta-title">Design the Future</h2>
+        <a href="registration.html" class="signup-btn">Register NOW!</a>
+    </div>
+
+</div>
+</div>
+
+<script src="js/nav.js"></script>
+<script src="js/shared.js"></script>
+</body>
+</html>

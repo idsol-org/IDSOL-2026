@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accolades & Achievements | IDSOL 2026</title>
+    <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="css/shared.css">
+    <style>
+        /* Medal grid */
+        .medal-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-bottom: 40px; }
+        .tech-card { background: var(--glass-deep); border: 1px solid var(--border-bright); padding: 40px; border-radius: 4px; text-align: center; backdrop-filter: blur(10px); transition: transform 0.3s ease; }
+        .tech-card:hover { transform: translateY(-5px); border-color: var(--node-bright); }
+        .medal-icon { font-size: 3.5rem; margin-bottom: 20px; display: block; filter: drop-shadow(0 0 10px rgba(156,233,255,0.3)); }
+        .medal-title { color: var(--node-bright); text-transform: uppercase; letter-spacing: 2px; margin: 10px 0 20px; font-size: 1.2rem; border-bottom: 1px solid var(--border-muted); padding-bottom: 15px; }
+        .list-items { list-style: none; padding: 0; margin-top: 20px; text-align: left; }
+        .list-items li { font-size: 0.88rem; padding: 10px 0; color: #ccc; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(156,233,255,0.05); }
+        .list-items li::before { content: ">"; color: var(--node-blue); font-weight: bold; flex-shrink: 0; }
+
+        /* Benefit grid */
+        .benefit-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 60px; }
+        .benefit-item { background: rgba(10,25,50,0.4); padding: 30px 25px; border: 1px solid var(--border-muted); border-radius: 4px; text-align: center; transition: all 0.3s ease; }
+        .benefit-item:hover { background: rgba(74,125,255,0.08); border-color: var(--node-blue); }
+        .benefit-item i { color: var(--node-bright); margin-bottom: 15px; }
+        .benefit-item h4 { margin: 10px 0 8px; font-size: 0.9rem; text-transform: uppercase; color: var(--node-bright); letter-spacing: 1px; }
+        .benefit-item p { font-size: 0.8rem; color: #aaa; margin: 0; line-height: 1.4; }
+
+        /* Academic & expanded grids */
+        .academic-grid, .expanded-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-bottom: 40px; }
+        .academic-box, .feature-box { background: var(--glass-deep); border: 1px solid var(--border-bright); padding: 50px 40px; border-radius: 4px; text-align: center; backdrop-filter: blur(10px); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .academic-box h3, .feature-box h2 { color: var(--node-bright); text-transform: uppercase; letter-spacing: 4px; margin: 20px 0 15px; font-size: 1.3rem; }
+        .academic-box p, .feature-box p { font-size: 0.95rem; color: #bbb; margin: 0; max-width: 420px; line-height: 1.6; }
+        .institution-tag { background: rgba(156,233,255,0.1); color: var(--node-bright); border: 1px solid var(--node-blue); padding: 6px 20px; font-size: 0.75rem; border-radius: 50px; display: inline-block; margin-top: 25px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+
+        /* CTA */
+        .cta-section { text-align: center; padding: 100px 20px; }
+        .cta-title { font-size: clamp(1.8rem,7vw,2.4rem); letter-spacing: 8px; text-transform: uppercase; margin-bottom: 40px; color: var(--node-bright); font-weight: 900; }
+        .signup-btn {
+            display: inline-block; padding: clamp(14px,4vw,18px) clamp(32px,8vw,50px);
+            border-radius: 50px; text-decoration: none; text-transform: uppercase; letter-spacing: 4px;
+            font-weight: 800; font-size: clamp(0.85rem,4vw,0.95rem); transition: all 0.3s ease;
+            background: var(--node-bright); color: var(--bg-darker); border: 1px solid var(--node-bright);
+            box-shadow: 0 10px 30px rgba(156,233,255,0.2);
+        }
+        .signup-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(156,233,255,0.4); background: white; }
+        .award-note { text-align: center; max-width: 800px; margin: 40px auto 80px; padding: 0 20px; color: var(--footer-grey); font-size: 0.95rem; line-height: 1.7; }
+
+        @media (max-width: 850px) {
+            .medal-grid, .benefit-grid, .academic-grid, .expanded-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+
+<div class="page-content">
+<div class="container">
+    <div class="section-header reveal"><h1>Global Excellence</h1><p>International Medals &amp; Career Rewards</p></div>
+
+    <section class="medal-grid">
+        <div class="tech-card reveal">
+            <span class="medal-icon">🥇</span>
+            <h2 class="medal-title">Gold Medal</h2>
+            <ul class="list-items">
+                <li>IDSOL 2026 2D ARC Gold</li>
+                <li>IDSOL 2026 2D DEV Gold</li>
+                <li>IDSOL 2026 3D ARC Gold</li>
+                <li>IDSOL 2026 3D DEV Gold</li>
+            </ul>
+        </div>
+        <div class="tech-card reveal">
+            <span class="medal-icon">🥈</span>
+            <h2 class="medal-title">Silver Medal</h2>
+            <ul class="list-items">
+                <li>IDSOL 2026 2D ARC Silver</li>
+                <li>IDSOL 2026 2D DEV Silver</li>
+                <li>IDSOL 2026 3D ARC Silver</li>
+                <li>IDSOL 2026 3D DEV Silver</li>
+            </ul>
+        </div>
+        <div class="tech-card reveal">
+            <span class="medal-icon">🥉</span>
+            <h2 class="medal-title">Bronze Medal</h2>
+            <ul class="list-items">
+                <li>IDSOL 2026 2D ARC Bronze</li>
+                <li>IDSOL 2026 2D DEV Bronze</li>
+                <li>IDSOL 2026 3D ARC Bronze</li>
+                <li>IDSOL 2026 3D DEV Bronze</li>
+            </ul>
+        </div>
+    </section>
+
+    <div class="benefit-grid reveal">
+        <div class="benefit-item"><i data-lucide="briefcase" style="width:28px;height:28px;"></i><h4>Career Pipeline</h4><p>Interview access for KBI network jobs.</p></div>
+        <div class="benefit-item"><i data-lucide="file-text" style="width:28px;height:28px;"></i><h4>KBI Library</h4><p>Whitepaper publishing opportunities.</p></div>
+        <div class="benefit-item"><i data-lucide="shield-check" style="width:28px;height:28px;"></i><h4>Credentials</h4><p>Verifiable digital assets.</p></div>
+        <div class="benefit-item"><i data-lucide="globe" style="width:28px;height:28px;"></i><h4>Recognition</h4><p>Global institutional validation.</p></div>
+    </div>
+
+    <div class="divider reveal"></div>
+
+    <div class="section-header reveal"><h2>Project Standing</h2><p>Academic Merit &amp; Finalist Status</p></div>
+
+    <div class="academic-grid">
+        <div class="academic-box reveal">
+            <i data-lucide="star" style="width:48px;height:48px;color:#9ce9ff;"></i>
+            <h3>Award of Merit</h3>
+            <p>Conferred to projects scoring above 75%. Provides a verifiable credential for research and internships.</p>
+        </div>
+        <div class="academic-box reveal">
+            <i data-lucide="check-circle" style="width:48px;height:48px;color:#4a7dff;"></i>
+            <h3>Olympiad Finalist</h3>
+            <p>Issued to all projects that accepted the invitation to compete in the International Finals.</p>
+        </div>
+    </div>
+
+    <div class="divider reveal"></div>
+
+    <div class="section-header reveal"><h2>Partner Recognition</h2><p>Institutional &amp; Industry Awards</p></div>
+
+    <div class="expanded-grid">
+        <div class="feature-box reveal">
+            <i data-lucide="graduation-cap" style="width:56px;height:56px;color:#9ce9ff;"></i>
+            <h2>School Medals</h2>
+            <p>Exclusive recognition for the top-performing teams within their own academic institution.</p>
+            <div class="institution-tag">Top Awardees at Your Institution</div>
+        </div>
+        <div class="feature-box reveal">
+            <i data-lucide="landmark" style="width:56px;height:56px;color:#9ce9ff;"></i>
+            <h2>Sponsor Awards</h2>
+            <p>Industry partners provide independent accolades based on specialized technical criteria.</p>
+            <div class="institution-tag">Top Awardees for Each Sponsor</div>
+        </div>
+    </div>
+
+    <div class="award-note reveal">International medals will be awarded at the Competition Finals.<br>Other accolades shall be sent directly to awardees as verifiable digital credentials.</div>
+
+    <div class="cta-section reveal">
+        <h2 class="cta-title">Do you have what it takes?</h2>
+        <a href="registration.html" class="signup-btn">Register NOW!</a>
+    </div>
+</div>
+</div>
+
+<script src="js/nav.js"></script>
+<script src="js/shared.js"></script>
+</body>
+</html>

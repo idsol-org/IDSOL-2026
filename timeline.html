@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timeline | IDSOL 2026</title>
+    <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="css/shared.css">
+    <style>
+        .content-wrap { position: relative; z-index: 2; padding: 0 20px 40px; max-width: 1200px; margin: 0 auto; }
+
+        .timeline-wrapper { position: relative; padding: 20px 0; }
+        .timeline-wrapper::before {
+            content: ''; position: absolute; left: 50%; top: 0; width: 2px; height: 100%;
+            background: linear-gradient(to bottom, transparent, var(--node-blue), var(--node-bright), var(--node-blue), transparent);
+            transform: translateX(-50%); opacity: 0.5;
+        }
+        .module-container { position: relative; width: 100%; margin-bottom: 100px; display: flex; justify-content: flex-start; }
+        .module-container:nth-child(even) { justify-content: flex-end; }
+        .tech-card {
+            position: relative; width: 40%; max-width: 480px;
+            background: var(--glass-frost); border: 1px solid var(--border-bright);
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+            padding: 35px; border-radius: 4px; margin-left: 5%; margin-right: 5%;
+        }
+        .tech-card::before, .tech-card::after { content: ''; position: absolute; width: 20px; height: 20px; border: 2px solid var(--node-bright); z-index: 5; }
+        .tech-card::before { top: -3px; left: -3px; border-right: none; border-bottom: none; }
+        .tech-card::after { bottom: -3px; right: -3px; border-left: none; border-top: none; }
+        .phase-id { display: inline-block; background: var(--node-blue); color: white; padding: 5px 16px; font-size: 0.78rem; font-weight: 800; letter-spacing: 2.5px; margin-bottom: 16px; border-radius: 3px; text-transform: uppercase; }
+        .date-text { display: block; color: var(--node-bright); font-size: clamp(1rem,4vw,1.15rem); font-weight: 800; margin-bottom: 14px; }
+        .tech-card h2 { margin: 0 0 18px; font-size: clamp(1.2rem,5vw,1.5rem); text-transform: uppercase; letter-spacing: 2px; color: var(--node-blue); border-bottom: 1px solid var(--border-bright); padding-bottom: 10px; }
+        .details-list { list-style: none; padding: 0; margin: 0; }
+        .details-list li { position: relative; padding-left: 28px; margin-bottom: 12px; font-size: 0.95rem; line-height: 1.6; color: rgba(255,255,255,0.9); }
+        .details-list li::before { content: "■"; position: absolute; left: 0; top: 0.35em; color: var(--node-blue); font-size: 1.1rem; line-height: 1; }
+        .tech-card--spacious .details-list { min-height: 150px; padding-top: 18px; padding-bottom: 18px; }
+        .tech-card--spacious .details-list li { margin-bottom: 22px; padding-top: 5px; padding-bottom: 5px; }
+        .note-box { text-align: center; max-width: 800px; margin: 30px auto 60px; padding: 0 20px; color: var(--footer-grey); font-size: 0.95rem; line-height: 1.7; }
+        .cta-section { text-align: center; padding: 100px 20px; }
+        .cta-title { font-size: clamp(1.8rem,7vw,2.4rem); letter-spacing: 8px; text-transform: uppercase; margin-bottom: 40px; color: var(--node-bright); font-weight: 900; text-shadow: 0 0 20px rgba(156,233,255,0.4); }
+        .signup-btn {
+            display: inline-block; padding: 18px 50px; border-radius: 50px; text-decoration: none;
+            text-transform: uppercase; letter-spacing: 4px; font-weight: 800; font-size: 0.95rem;
+            transition: all 0.3s ease; min-width: 240px; text-align: center;
+            background: var(--node-bright); color: var(--bg-darker); border: 1px solid var(--node-bright);
+            box-shadow: 0 10px 30px rgba(156,233,255,0.25);
+        }
+        .signup-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(156,233,255,0.45); background: white; }
+        @media (max-width: 850px) {
+            .timeline-wrapper::before { display: none; }
+            .module-container, .module-container:nth-child(even) { justify-content: center; margin-bottom: 60px; }
+            .tech-card { width: 100%; max-width: 100%; margin: 0; padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+
+<div class="page-content">
+<div class="section-header reveal" style="padding:0 20px;">
+    <h2>Timeline</h2>
+    <p>Roadmap to IDSOL 2026</p>
+</div>
+
+<div class="content-wrap">
+    <div class="timeline-wrapper">
+        <div class="module-container reveal">
+            <div class="tech-card tech-card--spacious">
+                <span class="phase-id">PHASE 0</span>
+                <span class="date-text">JUN – JUL 2026</span>
+                <h2>Pre-IBCOL</h2>
+                <ul class="details-list">
+                    <li><strong>28 Jun</strong> — Briefing session 1 (online)</li>
+                    <li><strong>5 Jul</strong> — Briefing session 2</li>
+                </ul>
+            </div>
+        </div>
+        <div class="module-container reveal">
+            <div class="tech-card">
+                <span class="phase-id">PHASE 1</span>
+                <span class="date-text">JUL – SEP 2026</span>
+                <h2>IBCOL Qualifiers</h2>
+                <ul class="details-list">
+                    <li><strong>7 Jul</strong> — Early bird payment deadline</li>
+                    <li><strong>8 Aug</strong> — Regular payment deadline</li>
+                    <li><strong>30 Aug</strong> — Regular whitepaper submission</li>
+                    <li><strong>9 Sep</strong> — Late bird payment deadline</li>
+                    <li><strong>31 Aug – 18 Sep</strong> — Regional judging; qualifications released on a rolling basis</li>
+                </ul>
+            </div>
+        </div>
+        <div class="module-container reveal">
+            <div class="tech-card tech-card--spacious">
+                <span class="phase-id">PHASE 2</span>
+                <span class="date-text">SEP – OCT 2026</span>
+                <h2>ETO — Emerging Technologies Olympiads</h2>
+                <ul class="details-list">
+                    <li><strong>20 Sep</strong> — Pitch deck and posterboard submission</li>
+                    <li><strong>8–9 Oct</strong> — Western ETO</li>
+                    <li><strong>10–11 Oct</strong> — Eastern ETO</li>
+                </ul>
+            </div>
+        </div>
+        <div class="module-container reveal">
+            <div class="tech-card tech-card--spacious">
+                <span class="phase-id">PHASE 3</span>
+                <span class="date-text">NOV – DEC 2026</span>
+                <h2>IBCOL Final Evaluation</h2>
+                <ul class="details-list">
+                    <li><strong>30 Nov</strong> — Whitepaper resubmission due</li>
+                    <li><strong>30 Nov – 18 Dec</strong> — Final evaluation judging</li>
+                    <li><strong>25 Dec</strong> — Results announced</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="note-box reveal">Note: IDSOL accolades are based only on scores from the Olympiad Exhibition; ETO accolades are based on Sponsors' scores from the Olympiad Symposium.</div>
+
+    <div class="cta-section reveal">
+        <h2 class="cta-title">Ready to Begin Your Journey?</h2>
+        <a href="registration.html" class="signup-btn">Register NOW!</a>
+    </div>
+</div>
+</div>
+
+<script src="js/nav.js"></script>
+<script src="js/shared.js"></script>
+</body>
+</html>

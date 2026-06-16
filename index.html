@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home | IDSOL 2026</title>
+    <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/shared.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .home-snap {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .home-snap .snap-panel {
+            position: relative;
+            min-height: calc(100vh - var(--nav-height));
+            min-height: calc(100dvh - var(--nav-height));
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            box-sizing: border-box;
+            padding: 3rem 20px;
+        }
+
+        .home-snap .section-header { margin: 1.5rem 0 2rem; }
+
+        .snap-panel-body {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Hero */
+        #hero-section {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem 20px 2.5rem;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        #hero-section.snap-panel {
+            box-sizing: border-box;
+        }
+        #hero-section .snap-panel-body {
+            transform: translateY(1.25rem);
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fff;
+            pointer-events: none;
+            z-index: 2;
+        }
+        .scroll-chevron {
+            display: block;
+            font-size: 1.75rem;
+            line-height: 1;
+            animation: scrollBounce 2s ease-in-out infinite;
+        }
+        @keyframes scrollBounce {
+            0%, 100% { transform: translateY(0); opacity: 0.85; }
+            50% { transform: translateY(8px); opacity: 1; }
+        }
+
+        .reveal-hero { opacity: 0; clip-path: inset(100% 0 0 0); transform: translateY(20px); animation: curtainReveal 1.4s cubic-bezier(0.19,1,0.22,1) forwards; }
+        .reveal-header { opacity: 0; transform: translateY(20px); animation: fadeIn 1s ease forwards; animation-delay: 0.6s; }
+        .reveal-delayed { opacity: 0; clip-path: inset(100% 0 0 0); transform: translateY(20px); animation: curtainReveal 1.4s cubic-bezier(0.19,1,0.22,1) forwards; animation-delay: 1.1s; }
+        .reveal-register-btn { opacity: 0; transform: translateY(20px); animation: fadeIn 1s ease forwards; animation-delay: 2.6s; }
+
+        @keyframes curtainReveal { 0% { opacity:0; clip-path:inset(100% 0 0 0); transform:translateY(20px); } 100% { opacity:1; clip-path:inset(0% 0 0 0); transform:translateY(0); } }
+        @keyframes fadeIn { to { opacity:1; transform:translateY(0); } }
+        @keyframes blink { 0%, 100% { opacity:1; } 50% { opacity:0; } }
+
+        .hero-brand { display: flex; flex-direction: column; align-items: center; }
+        .main-logo {
+            width: min(420px, 70vw); max-width: 88%; height: auto; margin-top: 30px;
+            margin-bottom: -50px; display: block;
+            filter: drop-shadow(0 0 25px rgba(156,233,255,0.35));
+        }
+
+        .brand-title {
+            font-size: 26px; font-weight: 800; letter-spacing: 5px; text-transform: uppercase;
+            margin: 0 0 20px; position: relative; z-index: 1;
+            text-shadow: 0 0 15px rgba(255,255,255,0.35); color: #fff;
+        }
+
+        .countdown-subheader {
+            font-size: 17px; font-weight: 500; letter-spacing: 6px; text-transform: uppercase;
+            color: var(--node-bright); margin-top: 20px; margin-bottom: 16px; text-shadow: 0 0 10px rgba(156,233,255,0.6);
+            border-bottom: 2px solid var(--node-blue); padding-bottom: 10px; display: inline-block;
+        }
+
+        .countdown-container { display: flex; gap: 20px; justify-content: center; margin-top: 5px; margin-bottom: 35px; flex-wrap: wrap; }
+
+        .time-box {
+            display: flex; flex-direction: column; align-items: center;
+            background: var(--glass-frost);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--border-bright);
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+            width: 110px;
+            padding: 20px 0;
+        }
+        .time-value { font-size: 48px; font-weight: 900; line-height: 1; font-family: var(--font-mono); color: #fff; }
+        .time-label { font-size: 10px; font-weight: 800; color: var(--node-bright); text-transform: uppercase; letter-spacing: 2px; margin-top: 5px; }
+
+        .typed-line { font-family: var(--font-mono); font-size: 1rem; color: var(--node-bright); margin-top: 12px; margin-bottom: 10px; padding: 0 10px; }
+        .cursor { display: inline-block; background-color: var(--node-bright); width: 3px; height: 20px; margin-left: 5px; animation: blink 1s infinite; vertical-align: middle; }
+
+        /* Stats - FIXED TO SECURE EQUAL HEIGHTS & LENGTHS */
+        .stats-wrapper { width: 100%; max-width: 1100px; margin: 0 auto; text-align: center; padding: 0; }
+        .stats-section {
+            display: flex; justify-content: center; align-items: stretch; gap: 24px; flex-wrap: wrap; margin-top: 10px;
+            opacity: 0; transform: translateY(30px); transition: all 1s ease;
+        }
+        .stats-section.revealed { opacity: 1; transform: translateY(0); }
+        .stat-card {
+            background: var(--glass-frost);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--border-bright);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+            padding: 35px 25px;
+            border-radius: 20px;
+            flex: 1 1 280px;
+            max-width: 320px;
+            min-height: 160px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+        .stat-card:hover { transform: translateY(-5px); border-color: var(--node-blue); background: rgba(156,233,255,0.12); }
+        .stat-number { display: block; font-size: 3rem; font-weight: 900; color: var(--node-bright); font-family: var(--font-mono); margin-bottom: 8px; }
+        .stat-label { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; color: #CBD5E1; opacity: 0.9; line-height: 1.3; }
+
+        /* Journey roadmap */
+        #section-journey {
+            max-width: 100%;
+            overflow-x: auto;
+            overflow-y: visible;
+            padding-bottom: 8px;
+            scroll-snap-stop: always;
+        }
+        #section-journey .section-header {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        #section-journey.revealed .section-header {
+            opacity: 1;
+            transition-delay: 0s;
+        }
+        #section-journey .roadmap-container { flex: 0 1 auto; }
+        .roadmap-container {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 16px;
+            width: 100%;
+            min-height: 220px;
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
+            justify-content: center;
+            flex-wrap: nowrap;
+            gap: 12px;
+            box-sizing: border-box;
+        }
+        .roadmap-container::before {
+            content: '';
+            position: absolute;
+            left: 8%;
+            right: 8%;
+            top: 50%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #2a4a8a 15%, var(--node-blue) 50%, #2a4a8a 85%, transparent);
+            transform: translateY(-50%) scaleX(0);
+            transform-origin: left center;
+            z-index: 0;
+            pointer-events: none;
+            transition: transform 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+            transition-delay: 0.4s;
+        }
+        #section-journey.revealed .roadmap-container::before {
+            transform: translateY(-50%) scaleX(1);
+        }
+        .step {
+            position: relative;
+            flex: 1 1 220px;
+            min-width: 180px;
+            margin-bottom: 0;
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        #section-journey.revealed .step:nth-child(1) { opacity: 1; transition-delay: 0.12s; }
+        #section-journey.revealed .step:nth-child(3) { opacity: 1; transition-delay: 0.62s; }
+        #section-journey.revealed .step:nth-child(5) { opacity: 1; transition-delay: 1.12s; }
+        #section-journey.revealed .step:nth-child(7) { opacity: 1; transition-delay: 1.62s; }
+        .step-card {
+            position: relative;
+            width: 100%;
+            padding: 28px 24px;
+            min-height: 200px;
+            height: 100%;
+            box-sizing: border-box;
+            background: var(--glass-frost);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--border-bright);
+            border-radius: 4px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+        }
+        .step-card::before, .step-card::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--node-blue);
+            z-index: 5;
+        }
+        .step-card::before { top: -3px; left: -3px; border-right: none; border-bottom: none; }
+        .step-card::after { bottom: -3px; right: -3px; border-left: none; border-top: none; }
+        .step-card h2 {
+            margin: 0 0 12px;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--node-blue);
+            border-bottom: 1px solid var(--border-bright);
+            padding-bottom: 10px;
+        }
+        .step-card p { color: #CBD5E1; margin: 0; font-size: 0.95rem; line-height: 1.5; }
+        .step-register-btn {
+            display: inline-flex; margin-top: 16px; padding: 10px 22px; border-radius: 50px;
+            text-decoration: none; text-transform: uppercase; letter-spacing: 2px; font-weight: 800;
+            font-size: 0.75rem; transition: all 0.3s ease; align-items: center;
+            background: var(--node-bright); color: var(--bg-darker); border: 1px solid var(--node-blue);
+        }
+        .step-register-btn:hover { transform: translateY(-3px); background: white; box-shadow: 0 15px 40px rgba(156,233,255,0.4); }
+        .roadmap-connector {
+            position: relative;
+            flex: 0 0 auto;
+            align-self: center;
+            width: 28px;
+            text-align: center;
+            color: var(--node-bright);
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1;
+            z-index: 1;
+            opacity: 0;
+            transform: translateY(-5px);
+            transition: opacity 0.45s ease, transform 0.45s ease;
+        }
+        .roadmap-connector::before { content: '›'; display: block; transform: translateY(3px);}
+        #section-journey.revealed .roadmap-connector:nth-child(2) { opacity: 1; transform: translateY(-5px); transition-delay: 0.28s; }
+        #section-journey.revealed .roadmap-connector:nth-child(4) { opacity: 1; transform: translateY(-5px); transition-delay: 0.78s; }
+        #section-journey.revealed .roadmap-connector:nth-child(6) { opacity: 1; transform: translateY(-5px); transition-delay: 1.28s; }
+
+        /* Testimonials */
+        #section-testimonials .testimonial-slider { flex: 0 1 auto; width: 100%; }
+        .testimonial-slider { width: 100%; max-width: 1100px; margin: 0 auto; position: relative; padding: 12px 80px; }
+        .testimonial-container { width: 100%; overflow: hidden; border-radius: 30px; }
+        .testimonial-track { display: flex; transition: transform 0.6s cubic-bezier(0.23,1,0.32,1); }
+        .testimonial-track.no-anim { transition: none !important; }
+        .t-card {
+            min-width: 100%; padding: 32px 28px;
+            background: var(--glass-frost); border: 1px solid var(--border-bright); backdrop-filter: blur(12px);
+            display: flex; flex-direction: column; align-items: center; text-align: center; border-radius: 30px;
+        }
+        .t-img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 3px solid var(--node-blue); margin-bottom: 12px; }
+        .t-info h3 { margin: 0; font-size: 1.4rem; color: #fff; }
+        .t-info span { color: var(--node-bright); font-size: 0.9rem; font-weight: 700; }
+        .t-affil { display: inline; }
+        .t-affil + .t-affil::before { content: ' '; }
+        .t-body { font-size: 1rem; line-height: 1.55; color: #CBD5E1; font-style: italic; max-width: 750px; margin-top: 12px; }
+        .t-body p { margin: 0; }
+        .arrow {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            width: 55px; height: 55px; background: rgba(156,233,255,0.08); border: 1px solid rgba(156,233,255,0.18);
+            border-radius: 50%; color: var(--node-bright); display: flex; align-items: center;
+            justify-content: center; cursor: pointer; z-index: 10; transition: background 0.3s; font-size: 1.2rem;
+        }
+        .arrow:hover { background: rgba(156,233,255,0.2); }
+        .arrow.prev { left: 10px; }
+        .arrow.next { right: 10px; }
+        .dot { width: 10px; height: 10px; background: rgba(156,233,255,0.25); border-radius: 50%; cursor: pointer; transition: 0.3s; }
+        .dot.active { background: var(--node-bright); transform: scale(1.4); }
+        .carousel-controls { display: flex; justify-content: center; gap: 15px; margin-top: 16px; }
+
+        /* Logo wall - Redefined to prevent shifting */
+        #logo-wall-container {
+            width: 100%;
+            position: relative;
+            display: block;
+        }
+        .logo-wall {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-content: flex-start;
+            padding: 0;
+        }
+        @keyframes logoFadeIn { 0% { opacity:0; transform:scale(0.96); } 100% { opacity:1; transform:scale(1); } }
+        @keyframes logoFadeOut { 0% { opacity:1; transform:scale(1); } 100% { opacity:0; transform:scale(0.96); } }
+        .logo-container {
+            padding: 0; margin: 8px; display: flex; justify-content: center; align-items: center;
+            max-width: 180px; height: 100px; background: white; border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            animation-duration: 0.5s; animation-fill-mode: both; animation-timing-function: ease-in-out;
+        }
+        .show-front .logo-container { animation-name: logoFadeIn; }
+        .show-back .logo-container { animation-name: logoFadeOut; }
+        .logo-container img { object-fit: contain; width: 80%; height: 80%; }
+        
+        @media (min-width: 1200px) { 
+            .logo-container { width: calc(20% - 16px); }
+            #logo-wall-container { min-height: 620px !important; } 
+        }
+        @media (min-width: 600px) and (max-width: 1199px) {
+            .logo-container { width: calc(25% - 16px); }
+            #logo-wall-container { min-height: 760px !important; }
+        }
+        @media (max-width: 599px) {
+            .logo-container { width: calc(50% - 16px); height: 80px; }
+            #logo-wall-container { min-height: 480px !important; }
+        }
+
+        /* CTA final panel */
+        #section-final .cta-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        .cta-anim-bg { position: relative; display: flex; align-items: center; justify-content: center; z-index: 1; }
+        .cta-content { position: relative; z-index: 4; width: 100%; }
+        .cta-title {
+            font-size: clamp(1.8rem, 5vw, 2.6rem); letter-spacing: 6px; text-transform: uppercase;
+            color: var(--node-bright); margin-bottom: 12px; font-weight: 900;
+        }
+        .cta-sub { color: #CBD5E1; margin-bottom: 0; font-size: 1.1rem; }
+        .cta-btn-hero {
+            display: inline-flex; padding: 18px 50px; border-radius: 50px; text-decoration: none;
+            text-transform: uppercase; letter-spacing: 4px; font-weight: 800; font-size: 1rem;
+            transition: all 0.3s ease; align-items: center; gap: 12px;
+            background: var(--node-bright); color: var(--bg-darker); border: 1px solid var(--node-blue);
+        }
+        .cta-btn-hero:hover { transform: translateY(-3px); background: white; box-shadow: 0 15px 40px rgba(156,233,255,0.4); }
+        .hero-register-btn { margin-top: 20px; }
+        
+        /* Upscaled CTA Branding Zone */
+        .brand-zone {
+            position: relative; 
+            width: 380px !important; 
+            height: 380px !important;
+            display: flex; justify-content: center; align-items: center; 
+        }
+        #traceCanvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; transition: opacity 1s ease; }
+        #logo-reveal-img {
+            width: 380px !important; 
+            height: 380px !important; 
+            z-index: 1; opacity: 0; transform: scale(0.85);
+            filter: drop-shadow(0 0 35px rgba(156,233,255,0.55)); transition: all 1.2s cubic-bezier(0.16,1,0.3,1);
+        }
+        .brand-zone.revealed-inner #logo-reveal-img { opacity: 1; transform: scale(1); }
+        .brand-zone.revealed-inner #traceCanvas { opacity: 0; pointer-events: none; }
+
+        @media (min-width: 1025px) {
+            html {
+                scroll-snap-type: y mandatory;
+                scroll-padding-top: var(--nav-height);
+            }
+            .home-snap .snap-panel {
+                scroll-snap-align: start;
+                scroll-snap-stop: always;
+            }
+            .home-snap .stats-wrapper.snap-panel {
+                align-items: center;
+                padding: 0 20px 3rem !important;
+            }
+            .stats-wrapper .stats-content {
+                width: 100%;
+            }
+            .stats-wrapper .section-header {
+                margin: 0 0 1.5rem;
+            }
+            .home-snap #section-testimonials.snap-panel {
+                padding: 4rem 20px !important;
+            }
+            #hero-section.snap-panel {
+                padding: 2rem 20px 0 !important;
+            }
+            #hero-section .main-logo {
+                margin-top: 28px;
+            }
+            #hero-section .snap-panel-body,
+            #section-journey .snap-panel-body {
+                flex: 1 1 auto;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                min-height: 0;
+            }
+            #section-journey.snap-panel {
+                justify-content: flex-start;
+                padding: 4rem 20px 1rem !important;
+            }
+            #section-journey .snap-panel-body {
+                gap: 0;
+            }
+            #section-journey .section-header {
+                margin: 0 0 1.5rem;
+            }
+            /* Pin scroll chevrons to bottom of each snap viewport (desktop) */
+            .home-snap .snap-panel:has(> .scroll-hint) {
+                position: relative !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: flex-start !important;
+                height: calc(100dvh - var(--nav-height));
+                min-height: calc(100dvh - var(--nav-height));
+                max-height: calc(100dvh - var(--nav-height));
+                overflow: hidden;
+                box-sizing: border-box;
+            }
+            .home-snap .snap-panel:has(> .scroll-hint) > .scroll-hint {
+                position: absolute !important;
+                bottom: 0.75rem !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                margin-top: 0 !important;
+                align-self: auto !important;
+                flex-shrink: 0;
+                z-index: 3;
+                padding: 0;
+            }
+            #hero-section.snap-panel:has(> .scroll-hint) {
+                height: 100dvh !important;
+                min-height: 100dvh !important;
+                max-height: 100dvh !important;
+                justify-content: flex-start !important;
+                padding-top: var(--nav-height) !important;
+                padding-bottom: 0 !important;
+            }
+            #hero-section.snap-panel:has(> .scroll-hint) > .scroll-hint {
+                position: absolute !important;
+                bottom: 0.75rem !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+            }
+            #hero-section .snap-panel-body {
+                padding-bottom: 2.5rem;
+            }
+            /* Competition Impact: vertically center content block; chevron stays absolute */
+            .home-snap .stats-wrapper.snap-panel:has(> .scroll-hint) {
+                justify-content: center !important;
+            }
+            #section-logos.snap-panel {
+                padding: 2rem 20px 1rem !important;
+                justify-content: flex-start;
+                align-items: center;
+            }
+            #section-logos .section-header {
+                margin: 0 0 1rem;
+                flex-shrink: 0;
+            }
+            #section-logos #logo-wall-container {
+                flex: 1 1 auto;
+                min-height: 0 !important;
+                width: 100%;
+                overflow: hidden;
+            }
+            #section-final.snap-panel {
+                max-width: 100%;
+                padding: 0 !important;
+                height: calc(100dvh - var(--nav-height));
+                min-height: calc(100dvh - var(--nav-height));
+                max-height: calc(100dvh - var(--nav-height));
+                overflow: hidden;
+                justify-content: space-between;
+                scroll-snap-align: start;
+                scroll-snap-stop: always;
+            }
+            #section-final .cta-section {
+                flex: 1 1 auto;
+                min-height: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                padding: 16px 20px 8px;
+                text-align: center;
+                box-sizing: border-box;
+                gap: 12px;
+            }
+            #section-final .brand-zone,
+            #section-final #logo-reveal-img {
+                width: 320px !important;
+                height: 320px !important;
+            }
+            #section-final .cta-title {
+                font-size: clamp(1.4rem, 3vw, 2rem);
+                margin-bottom: 6px;
+            }
+            #section-final .cta-sub {
+                font-size: 0.95rem;
+            }
+            #section-final .site-footer {
+                width: 100%;
+                flex-shrink: 0;
+                margin-top: 0;
+                padding: 0 16px;
+            }
+            #section-final .footer-inner {
+                padding: 16px 12px;
+            }
+            #section-final .footer-columns {
+                gap: 24px;
+                margin-bottom: 12px;
+            }
+        }
+
+        @media (min-width: 1025px) and (max-width: 1280px) {
+            #hero-section.snap-panel:has(> .scroll-hint) {
+                padding-top: calc(var(--nav-height) + 0.75rem) !important;
+            }
+            #hero-section .snap-panel-body {
+                transform: translateY(1.25rem);
+                justify-content: flex-start;
+                padding-top: 0.5rem;
+                padding-bottom: 3.25rem;
+            }
+            #hero-section .snap-panel-body .hero-register-btn {
+                flex-shrink: 0;
+                margin-bottom: 0.25rem;
+            }
+            #hero-section .main-logo {
+                width: min(320px, 42vw);
+                margin-top: 8px;
+                margin-bottom: -32px;
+            }
+            .brand-title { font-size: 20px; letter-spacing: 3px; margin-top: 0; margin-bottom: 10px; line-height: 1.25; }
+            .countdown-subheader { font-size: 14px; letter-spacing: 4px; margin-top: 12px; margin-bottom: 10px; padding-bottom: 8px; }
+            .countdown-container { gap: 12px; margin-bottom: 16px; margin-top: 0; }
+            .time-box { width: 88px; padding: 12px 0; border-radius: 16px; }
+            .time-value { font-size: 36px; }
+            .time-label { font-size: 9px; }
+            .typed-line { font-size: 0.88rem; margin-top: 6px; margin-bottom: 4px; }
+            .hero-register-btn { margin-top: 8px; }
+            .cta-btn-hero { padding: 14px 36px; font-size: 0.9rem; letter-spacing: 3px; }
+        }
+
+        @media (min-width: 1281px) {
+            #hero-section .snap-panel-body {
+                transform: translateY(-2.75rem);
+                justify-content: center;
+                padding-top: 0;
+                padding-bottom: 2.5rem;
+            }
+            #hero-section .main-logo {
+                width: min(420px, 70vw);
+                max-width: 88%;
+                margin-top: 28px;
+                margin-bottom: -50px;
+            }
+            #hero-section.snap-panel:has(> .scroll-hint) {
+                padding-top: var(--nav-height) !important;
+            }
+            .hero-register-btn { margin-top: 20px; }
+        }
+
+        @media (max-width: 1024px) {
+            html {
+                scroll-snap-type: none !important;
+                scroll-padding-top: 0 !important;
+            }
+            .home-snap .snap-panel { 
+                scroll-snap-align: none !important;
+                scroll-snap-stop: normal !important;
+                min-height: auto !important;
+                height: auto !important;
+                max-height: none !important;
+                overflow: visible !important;
+                padding: 60px 15px !important;
+            }
+            .home-snap .snap-panel:has(> .scroll-hint) {
+                height: auto !important;
+                max-height: none !important;
+                overflow: visible !important;
+            }
+            
+            .scroll-hint { display: none !important; }
+            #hero-section { padding: 1rem 15px 2.5rem; }
+            #hero-section.snap-panel { padding-top: 1rem; }
+            #hero-section .snap-panel-body { transform: translateY(1.25rem); }
+            .main-logo { margin-top: 12px; margin-bottom: -40px; }
+            .brand-title { font-size: 17px; letter-spacing: 3px; margin-top: 0; margin-bottom: 10px; line-height: 1.25; }
+            .time-box { width: 80px; padding: 15px 0; }
+            .time-value { font-size: 32px; }
+            
+            .roadmap-container {
+                flex-direction: column;
+                align-items: center;
+                padding: 16px 12px;
+                gap: 8px;
+            }
+            .roadmap-container::before {
+                left: 50%; right: auto; top: 8%; bottom: 8%; width: 2px; height: auto;
+                transform: translateX(-50%) scaleY(0); transform-origin: top center;
+            }
+            #section-journey.revealed .roadmap-container::before { transform: translateX(-50%) scaleY(1); }
+            .step { flex: 0 0 auto; width: 100%; max-width: 520px; min-width: 0; }
+            .step-card { min-height: 0; padding: 20px 18px; }
+            .roadmap-connector { width: auto; padding: 4px 0; }
+            .roadmap-connector::before { content: '⌄'; }
+            
+            /* MOVE TESTIMONIAL ARROWS INSIDE CARD TOP CORNERS ON MOBILE */
+            .testimonial-slider {
+                padding: 14px 10px 12px;
+                position: relative;
+                max-width: min(800px, calc(100% - 24px));
+            }
+            .arrow { top: 22px; transform: none; width: 45px; height: 45px; }
+            .arrow.prev { left: 20px; }
+            .arrow.next { right: 20px; }
+            .t-affil { display: block; }
+            .t-affil + .t-affil::before { content: none; }
+            .t-card { padding: 24px 16px; }
+            .t-body { font-size: 0.95rem; }
+            
+            .stat-card {
+                flex: 0 1 auto;
+                min-width: 0;
+                width: min(320px, 100%);
+                max-width: 320px;
+                min-height: auto;
+                padding: 25px 20px;
+            }
+            .stat-number { font-size: 2.4rem; }
+            
+            /* CTA Section Mobile Sizing Adaptations */
+            #section-final.snap-panel {
+                justify-content: flex-start !important;
+                padding: 60px 15px 0 !important;
+                height: auto !important;
+                max-height: none !important;
+                min-height: auto !important;
+                overflow: visible !important;
+            }
+            #section-logos #logo-wall-container {
+                flex: none;
+                min-height: 480px !important;
+                overflow: visible;
+            }
+            #section-final .site-footer { margin-top: 40px; }
+            #section-final .cta-section { margin-top: 0 !important; gap: 24px; padding: 40px 15px; }
+            .brand-zone, #logo-reveal-img { width: 260px !important; height: 260px !important; }
+            #cta-text-content { top: 0 !important; transform: translateY(0) !important; margin-bottom: 5px; }
+            #cta-btn-content { margin-top: 5px !important; transform: translateY(0) !important; }
+            .cta-btn-hero { padding: 12px 32px !important; font-size: 0.85rem !important; letter-spacing: 2px !important; }
+            .cta-title { font-size: 1.4rem !important; letter-spacing: 3px !important; }
+            .cta-sub { font-size: 0.9rem !important; }
+        }
+        .site-footer--panel {
+            width: 100%; margin-top: auto; padding: 0px 20px; box-sizing: border-box;
+            background: var(--glass-frost); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+        }
+        .footer-inner { max-width: 1200px; margin: 0 auto; width: 100%; }
+    </style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+
+<main class="home-snap">
+
+<!-- Hero -->
+<section id="hero-section" class="snap-panel">
+    <div class="snap-panel-body">
+    <div class="reveal-hero hero-brand">
+        <img src="https://cdn.kb.institute/eto-2026/IDSOL/Logo/Square_Dark_Background_2026_500.png" class="main-logo" alt="IDSOL Logo">
+        <div class="brand-title">International Data Science Olympiad 2026</div>
+    </div>
+    <div class="reveal-header">
+        <div class="countdown-subheader">Competition Launch</div>
+    </div>
+    <div class="reveal-delayed">
+        <div class="countdown-container">
+            <div class="time-box"><span class="time-value" id="days">00</span><span class="time-label">Days</span></div>
+            <div class="time-box"><span class="time-value" id="hours">00</span><span class="time-label">Hours</span></div>
+            <div class="time-box"><span class="time-value" id="minutes">00</span><span class="time-label">Mins</span></div>
+            <div class="time-box"><span class="time-value" id="seconds">00</span><span class="time-label">Secs</span></div>
+        </div>
+        <div class="typed-line">
+            &gt; <span id="typed-text"></span><span class="cursor"></span>
+        </div>
+    </div>
+    <a href="registration.html" class="cta-btn-hero hero-register-btn reveal-register-btn">
+        Register Now
+        <i data-lucide="play"></i>
+    </a>
+    </div>
+    <div class="scroll-hint" aria-hidden="true">
+        <span class="scroll-chevron">⌄</span>
+    </div>
+</section>
+
+<!-- Stats -->
+<section class="stats-wrapper snap-panel">
+    <div class="stats-content">
+    <div class="section-header"><h2>Competition Impact</h2></div>
+    <div class="stats-section" id="stats-container">
+        <div class="stat-card"><span class="stat-number" data-target="120">0</span><span class="stat-label">Participating Countries</span></div>
+        <div class="stat-card"><span class="stat-number" data-target="1000">0</span><span class="stat-label">Global Participants</span></div>
+        <div class="stat-card"><span class="stat-number" data-target="200">0</span><span class="stat-label">Academic Institutions</span></div>
+    </div>
+    </div>
+    <div class="scroll-hint" aria-hidden="true">
+        <span class="scroll-chevron">⌄</span>
+    </div>
+</section>
+
+<!-- Journey -->
+<section class="snap-panel" id="section-journey">
+<div class="snap-panel-body">
+<div class="section-header"><h1>The Journey</h1></div>
+<div class="roadmap-container">
+    <div class="step"><div class="step-card"><h2>Registration</h2><p>Secure your spot and verify credentials to gain entry to the IDSOL ecosystem.</p><a href="registration.html" class="step-register-btn">Register Now</a></div></div>
+    <span class="roadmap-connector" aria-hidden="true"></span>
+    <div class="step"><div class="step-card"><h2>Training</h2><p>Master advanced methodologies in KBI's Skillsprint to elevate your technical proficiency.</p></div></div>
+    <span class="roadmap-connector" aria-hidden="true"></span>
+    <div class="step"><div class="step-card"><h2>Creation</h2><p>Architect an original project that translates complex insights into real-world solutions.</p></div></div>
+    <span class="roadmap-connector" aria-hidden="true"></span>
+    <div class="step"><div class="step-card"><h2>Submission</h2><p>Finalize and upload your project for evaluation by our international board of experts.</p></div></div>
+</div>
+</div>
+    <div class="scroll-hint" aria-hidden="true">
+        <span class="scroll-chevron">⌄</span>
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section class="snap-panel" id="section-testimonials">
+<div class="section-header reveal"><h1>Alumni &amp; Partner Impact</h1></div>
+<div class="testimonial-slider">
+    <div class="arrow prev" role="button" tabindex="0" aria-label="Previous" onclick="moveSlide(-1)">❮</div>
+    <div class="arrow next" role="button" tabindex="0" aria-label="Next" onclick="moveSlide(1)">❯</div>
+    <div class="testimonial-container">
+        <div class="testimonial-track" id="t-track">
+            <div class="t-card">
+                <img src="https://cdn.kb.institute/eto-2026/general/testimonial/kbi-profile-nikkia-lo-2025.jpg" alt="nikkia lo" class="t-img">
+                <div class="t-info"><h3>Nikkia Lo</h3><span>🇭🇰 HKU</span></div>
+                <div class="t-body"><p>"The organization has had a huge influence on me, and I'm excited to pursue my ultimate goal of incubating a startup at HKSTP."</p></div>
+            </div>
+            <div class="t-card">
+                <img src="https://cdn.kb.institute/eto-2026/general/testimonial/kbi-profile-sakib-rabbani.jpg" alt="Sakib" class="t-img">
+                <div class="t-info"><h3>Sakib Rabbani</h3><span>🇭🇰 JP Morgan HK</span></div>
+                <div class="t-body"><p>"The IBCOL IDSOL, and KBI network connect me with industry professionals, which helped me get a job in Software Engineering at JP Morgan HK."</p></div>
+            </div>
+            <div class="t-card">
+                <img src="https://cdn.kb.institute/eto-2026/general/testimonial/kbi-profile-niya-abdullahi.jpg" alt="Niya" class="t-img">
+                <div class="t-info"><h3>Niya Abdullahi</h3><span>🇨🇦 TMU</span></div>
+                <div class="t-body"><p>"Meeting people from around the world and being surrounded by such incredible innovative projects, talents and bright minds will always be a core memory for me."</p></div>
+            </div>
+            <div class="t-card">
+                <img src="https://cdn.kb.institute/eto-2026/general/testimonial/kbi-profile-dion-kamst.jpg" alt="Dion" class="t-img">
+                <div class="t-info"><h3>Dion Kamst</h3><span>Production Lead</span></div>
+                <div class="t-body"><p>"IBCOL, IDSOL, and DigiQuest were a transformative experience for me... I gained invaluable insights into working across cultures and making impactful changes."</p></div>
+            </div>
+            <div class="t-card">
+                <img src="https://cdn.kb.institute/eto-2026/general/testimonial/kbi-profile-isabel-yan.jpg" alt="Isabel" class="t-img">
+                <div class="t-info"><h3>Dr. Prof. Isabel Yan</h3><span>🇭🇰 CityU</span></div>
+                <div class="t-body"><p>"The Königsberger Bridges Institute comprises a great team of professionals... They are very dedicated to advancing students' knowledge and application skills."</p></div>
+            </div>
+        </div>
+    </div>
+    <div class="carousel-controls" id="carousel-dots"></div>
+</div>
+    <div class="scroll-hint" aria-hidden="true">
+        <span class="scroll-chevron">⌄</span>
+    </div>
+</section>
+
+<!-- Global Connections -->
+<section class="snap-panel" id="section-logos">
+<div class="section-header reveal"><h1>Global Connections</h1></div>
+<div id="logo-wall-container" class="reveal"></div>
+    <div class="scroll-hint" aria-hidden="true">
+        <span class="scroll-chevron">⌄</span>
+    </div>
+</section>
+
+<!-- CTA + Footer -->
+<section class="snap-panel" id="section-final">
+
+    <div class="cta-section">
+        <div class="cta-content" id="cta-text-content" style="opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease, transform 0.8s ease; text-align: center;">
+            <div class="cta-title">Ready to Compete?</div>
+            <p class="cta-sub">Join thousands of data scientists from over 120 countries at IDSOL 2026.</p>
+        </div>
+
+        <div class="cta-anim-bg" id="trigger-final">
+            <div class="brand-zone" id="brand-box">
+                <canvas id="traceCanvas"></canvas>
+                <img id="logo-reveal-img" src="https://cdn.kb.institute/KBI-logo-light.png" alt="KBI Logo Reveal">
+            </div>
+        </div>
+
+        <div class="cta-content" id="cta-btn-content" style="opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease, transform 0.8s ease; text-align: center;">
+            <a href="registration.html" class="cta-btn-hero">
+                Register Now
+                <i data-lucide="play"></i>
+            </a>
+        </div>
+    </div>
+
+    <footer class="site-footer site-footer--panel">
+        <div class="footer-line"></div>
+        <div class="footer-inner">
+            <div class="footer-columns">
+                <div class="footer-col">
+                    <h4>IDSOL: International Data Science Olympiad</h4>
+                    <div class="footer-icons">
+                        <a href="https://2026.idsol.org" target="_blank" rel="noopener" title="IDSOL Website"><i data-lucide="globe"></i></a>
+                        <a href="https://www.linkedin.com/company/idsol-org" target="_blank" rel="noopener" title="LinkedIn"><i data-lucide="linkedin"></i></a>
+                        <a href="https://www.instagram.com/idsol_org/" target="_blank" rel="noopener" title="Instagram"><i data-lucide="instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>KBI: Königsberger Bridges Institute</h4>
+                    <div class="footer-icons">
+                        <a href="https://www.kb.institute/" target="_blank" rel="noopener" title="Website"><i data-lucide="globe"></i></a>
+                        <a href="https://www.linkedin.com/company/kbi-eu/" target="_blank" rel="noopener" title="LinkedIn"><i data-lucide="linkedin"></i></a>
+                        <a href="https://www.instagram.com/kbi.eu/" target="_blank" rel="noopener" title="Instagram"><i data-lucide="instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <p class="footer-copyright">© 2020–2026 International Data Science Olympiad (IDSOL Foundation). All Rights Reserved.</p>
+        </div>
+    </footer>
+
+</section>
+
+</main>
+
+<!-- Scripts -->
+<script src="js/bg-canvas-home.js"></script>
+<script src="js/nav.js"></script>
+<script>
+/* Countdown */
+const target = new Date('2026-06-28T00:00:00');
+function updateCountdown() {
+    const now = new Date();
+    const diff = target - now;
+    if (diff <= 0) {
+        document.getElementById('days').textContent = '00';
+        document.getElementById('hours').textContent = '00';
+        document.getElementById('minutes').textContent = '00';
+        document.getElementById('seconds').textContent = '00';
+        return;
+    }
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    document.getElementById('days').textContent = String(d).padStart(2, '0');
+    document.getElementById('hours').textContent = String(h).padStart(2, '0');
+    document.getElementById('minutes').textContent = String(m).padStart(2, '0');
+    document.getElementById('seconds').textContent = String(s).padStart(2, '0');
+}
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+/* Typed text */
+const lines = [
+    'Innovating with Data Science...',
+    'Connecting Global Minds...',
+    'Building the Future of AI...'
+];
+let li = 0, ci = 0, deleting = false;
+function typeWriter() {
+    const el = document.getElementById('typed-text');
+    const cur = lines[li];
+    if (!deleting) {
+        el.textContent = cur.substring(0, ++ci);
+        if (ci === cur.length) { deleting = true; setTimeout(typeWriter, 1800); return; }
+    } else {
+        el.textContent = cur.substring(0, --ci);
+        if (ci === 0) { deleting = false; li = (li + 1) % lines.length; }
+    }
+    setTimeout(typeWriter, deleting ? 45 : 80);
+}
+setTimeout(typeWriter, 1800);
+
+/* Counter animation */
+function animateCounter(el, target) {
+    const dur = 2000, step = 20;
+    let cur = 0;
+    const inc = target / (dur / step);
+    const t = setInterval(() => {
+        cur = Math.min(cur + inc, target);
+        el.textContent = (target >= 1000 ? Math.floor(cur).toLocaleString() : Math.floor(cur)) + '+';
+        if (cur >= target) clearInterval(t);
+    }, step);
+}
+
+const statsObs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+            entry.target.querySelectorAll('.stat-number').forEach(el => {
+                animateCounter(el, parseInt(el.getAttribute('data-target'), 10));
+            });
+            statsObs.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.3 });
+const statsEl = document.getElementById('stats-container');
+if (statsEl) statsObs.observe(statsEl);
+
+const journeyEl = document.getElementById('section-journey');
+if (journeyEl) {
+    const journeyObs = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('revealed');
+                journeyObs.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.3 });
+    journeyObs.observe(journeyEl);
+}
+
+/* Testimonial slider */
+let curSlide = 0, totalSlides = 0, autoSlide;
+function buildDots() {
+    const track = document.getElementById('t-track');
+    if (!track) return;
+    totalSlides = track.children.length;
+    const dc = document.getElementById('carousel-dots');
+    if (!dc) return;
+    dc.innerHTML = '';
+    for (let i = 0; i < totalSlides; i++) {
+        const d = document.createElement('span');
+        d.className = 'dot' + (i === 0 ? ' active' : '');
+        d.onclick = () => goSlide(i);
+        dc.appendChild(d);
+    }
+}
+function goSlide(n) {
+    curSlide = (n + totalSlides) % totalSlides;
+    const track = document.getElementById('t-track');
+    if (track) track.style.transform = `translateX(-${curSlide * 100}%)`;
+    document.querySelectorAll('#carousel-dots .dot').forEach((d, i) => d.classList.toggle('active', i === curSlide));
+}
+window.moveSlide = (dir) => { goSlide(curSlide + dir); resetAuto(); };
+function resetAuto() {
+    clearInterval(autoSlide);
+    autoSlide = setInterval(() => goSlide(curSlide + 1), 5000);
+}
+buildDots();
+resetAuto();
+
+/* Global connections logo wall */
+const LOGO_SOURCES = [
+    "https://cdn.kb.institute/logo/ABN-AMRO.png","https://cdn.kb.institute/logo/Alchemy.png","https://cdn.kb.institute/logo/Alibaba.png",
+    "https://cdn.kb.institute/logo/Amazon.png","https://cdn.kb.institute/logo/Apple.png","https://cdn.kb.institute/logo/ASML.png",
+    "https://cdn.kb.institute/logo/ASTRI.png","https://cdn.kb.institute/logo/Bloomberg.png","https://cdn.kb.institute/logo/BNP-Paribas.png",
+    "https://cdn.kb.institute/logo/ByteDance.png","https://cdn.kb.institute/logo/Coinbase.png","https://cdn.kb.institute/logo/Deloitte.png",
+    "https://cdn.kb.institute/logo/Deutsche-Bank.png","https://cdn.kb.institute/logo/Duolingo.png","https://cdn.kb.institute/logo/GitHub.png",
+    "https://cdn.kb.institute/logo/Google.png","https://cdn.kb.institute/logo/HSBC.png","https://cdn.kb.institute/logo/Indeed.png",
+    "https://cdn.kb.institute/logo/JP-Morgan-Chase.png","https://cdn.kb.institute/logo/LinkedIn.png","https://cdn.kb.institute/logo/Lyft.png",
+    "https://cdn.kb.institute/logo/MasterCard.png","https://cdn.kb.institute/logo/McKinsey-&-Company.png","https://cdn.kb.institute/logo/Microsoft.png",
+    "https://cdn.kb.institute/logo/Morgan-Stanley.png","https://cdn.kb.institute/logo/Netflix.png","https://cdn.kb.institute/logo/NVIDIA-AI-Technology-Centre.png",
+    "https://cdn.kb.institute/logo/Open-AI.png","https://cdn.kb.institute/logo/Palantir.png","https://cdn.kb.institute/logo/PwC.png",
+    "https://cdn.kb.institute/logo/Reddit.png","https://cdn.kb.institute/logo/Shopify.png","https://cdn.kb.institute/logo/TikTok.png",
+    "https://cdn.kb.institute/logo/Massachusetts-Institute-of-Technology-(MIT).png","https://cdn.kb.institute/logo/National-University-of-Singapore-(NUS).png",
+    "https://cdn.kb.institute/logo/S&P-Global.png", "https://cdn.kb.institute/logo/The-University-of-Hong-Kong-(HKU).png","https://cdn.kb.institute/logo/University-of-Waterloo-(UW).png",
+    "https://cdn.kb.institute/logo/Waymo.png","https://cdn.kb.institute/logo/Zoox.png"
+];
+
+const logoWallContainer = document.getElementById('logo-wall-container');
+if (logoWallContainer) {
+    const logoWall = document.createElement('div');
+    logoWall.className = 'logo-wall show-front';
+    logoWallContainer.appendChild(logoWall);
+
+    let rotationIndex = 0;
+
+    function getItemsPerPage() {
+        const width = window.innerWidth;
+        if (width < 1025) return 8;
+        if (width < 1200) return 12;
+        return 21;
+    }
+
+    function populateWall(page) {
+        const fragment = document.createDocumentFragment();
+        const itemsPerPage = getItemsPerPage();
+        const start = page * itemsPerPage;
+        const end = Math.min(start + itemsPerPage, LOGO_SOURCES.length);
+
+        for (let i = start; i < end; i++) {
+            const container = document.createElement('div');
+            container.className = 'logo-container';
+            container.style.animationDelay = `${(i - start) * 35}ms`;
+            const img = document.createElement('img');
+            img.src = LOGO_SOURCES[i];
+            img.alt = 'Partner logo';
+            img.loading = 'lazy';
+            container.appendChild(img);
+            fragment.appendChild(container);
+        }
+        logoWall.replaceChildren(fragment);
+    }
+
+    populateWall(0);
+    setInterval(() => {
+        logoWall.classList.replace('show-front', 'show-back');
+        setTimeout(() => {
+            const itemsPerPage = getItemsPerPage();
+            rotationIndex = (rotationIndex + 1) % Math.ceil(LOGO_SOURCES.length / itemsPerPage);
+            populateWall(rotationIndex);
+            logoWall.classList.replace('show-back', 'show-front');
+        }, 500);
+    }, 5000);
+
+    window.addEventListener('resize', () => {
+        populateWall(0);
+        rotationIndex = 0;
+    });
+}
+
+/* End CTA trace animation */
+const triggerFinal = document.getElementById('trigger-final');
+const brandBox = document.getElementById('brand-box');
+const traceCanvas = document.getElementById('traceCanvas');
+const ctaTextContent = document.getElementById('cta-text-content');
+const ctaBtnContent = document.getElementById('cta-btn-content');
+
+if (triggerFinal && brandBox && traceCanvas) {
+    const tCtx = traceCanvas.getContext('2d');
+    const pts = [{ x: 190, y: 102 }, { x: 298, y: 260 }, { x: 81, y: 260 }, { x: 190, y: 102 }];
+    let traceStarted = false;
+    let traceProg = 0;
+
+    function runTrace() {
+        traceCanvas.width = 380;
+        traceCanvas.height = 380;
+        tCtx.clearRect(0, 0, 380, 380);
+
+        const cur = Math.floor(traceProg * 3);
+        const sub = (traceProg * 3) % 1;
+
+        tCtx.lineWidth = 4;
+        tCtx.strokeStyle = 'rgba(165,215,232,0.4)';
+        for (let i = 0; i < cur; i++) {
+            tCtx.beginPath();
+            tCtx.moveTo(pts[i].x, pts[i].y);
+            tCtx.lineTo(pts[i + 1].x, pts[i + 1].y);
+            tCtx.stroke();
+        }
+
+        if (traceProg < 1) {
+            tCtx.beginPath();
+            tCtx.moveTo(pts[cur].x, pts[cur].y);
+            tCtx.lineTo(
+                pts[cur].x + (pts[cur + 1].x - pts[cur].x) * sub,
+                pts[cur].y + (pts[cur + 1].y - pts[cur].y) * sub
+            );
+            tCtx.strokeStyle = '#A5D7E8';
+            tCtx.stroke();
+
+            traceProg += 0.04;
+            requestAnimationFrame(runTrace);
+        } else {
+            brandBox.classList.add('revealed-inner');
+
+            setTimeout(() => {
+                if (ctaTextContent) {
+                    ctaTextContent.style.opacity = '1';
+                    ctaTextContent.style.transform = 'translateY(0)';
+                }
+            }, 300);
+
+            setTimeout(() => {
+                if (ctaBtnContent) {
+                    ctaBtnContent.style.opacity = '1';
+                    ctaBtnContent.style.transform = 'translateY(0)';
+                }
+            }, 850);
+        }
+    }
+
+    const finalObs = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting && !traceStarted) {
+                traceStarted = true;
+                runTrace();
+            }
+        });
+    }, { threshold: 0.2 });
+
+    finalObs.observe(triggerFinal);
+}
+</script>
+<script src="js/shared.js"></script>
+</body>
+</html>

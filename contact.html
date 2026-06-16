@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | IDSOL 2026</title>
+    <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="css/shared.css">
+    <style>
+        .section-header { margin: 80px 0 60px; }
+        .section-header h2 { font-size: clamp(2rem,6vw,2.7rem); letter-spacing: 10px; }
+
+        .container {
+            max-width: 1100px; margin: 0 auto;
+            padding: 0 20px 100px; width: 100%;
+            box-sizing: border-box; position: relative; z-index: 1;
+        }
+
+        .contact-info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }
+        .info-card-link { text-decoration: none; color: inherit; display: block; }
+        .info-card {
+            padding: 50px 30px;
+            background: rgba(10, 25, 50, 0.6);
+            border: 1px solid var(--border-bright);
+            border-radius: 4px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+            height: 100%;
+            box-sizing: border-box;
+        }
+        .info-card-link:hover .info-card {
+            transform: translateY(-8px);
+            border-color: var(--node-bright);
+            background: rgba(10, 25, 50, 0.85);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+        }
+        .info-card i { color: var(--node-bright); margin-bottom: 20px; }
+        .info-card h3 { color: var(--node-bright); text-transform: uppercase; letter-spacing: 2px; margin: 0 0 12px; font-size: 1rem; }
+        .info-card p { color: #bbb; font-size: 0.9rem; margin: 0; line-height: 1.6; }
+        .info-card .contact-value { color: white; font-size: 0.95rem; margin-top: 10px; font-weight: 600; word-break: break-all; }
+
+        @media (max-width: 900px) { .contact-info-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 600px) { .section-header h2 { font-size: 1.8rem; letter-spacing: 5px; } }
+    </style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+
+<div class="page-content">
+<div class="section-header reveal" style="text-align:center;padding:0 20px;">
+    <h2>Contact Us</h2>
+</div>
+
+<div class="container">
+    <div class="contact-info-grid">
+        <a href="mailto:2026@idsol.org?subject=General%20Inquiry%20-%20IDSOL%202026" class="info-card-link reveal">
+            <div class="info-card">
+                <i data-lucide="mail" style="width:40px;height:40px;"></i>
+                <h3>General Inquiries</h3>
+                <p>For all general questions about IDSOL 2026.</p>
+                <div class="contact-value">2026@idsol.org</div>
+            </div>
+        </a>
+        <a href="mailto:2026@idsol.org?subject=Registration%20Inquiry%20-%20IDSOL%202026" class="info-card-link reveal">
+            <div class="info-card">
+                <i data-lucide="user-plus" style="width:40px;height:40px;"></i>
+                <h3>Registration Support</h3>
+                <p>Questions about team registration, fees, or eligibility.</p>
+                <div class="contact-value">2026@idsol.org</div>
+            </div>
+        </a>
+        <a href="mailto:partnerships@kb.institute?subject=IDSOL%202026%20Partnership%20Inquiry" class="info-card-link reveal">
+            <div class="info-card">
+                <i data-lucide="handshake" style="width:40px;height:40px;"></i>
+                <h3>Partnerships &amp; Sponsors</h3>
+                <p>Interested in becoming a partner or sponsor of IDSOL 2026?</p>
+                <div class="contact-value">partnerships@kb.institute</div>
+            </div>
+        </a>
+    </div>
+</div>
+</div>
+
+<script src="js/nav.js"></script>
+<script src="js/shared.js"></script>
+</body>
+</html>

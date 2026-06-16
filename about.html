@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | IDSOL 2026</title>
+    <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="css/shared.css">
+    <style>
+        h2 {
+            font-size: clamp(2.2rem, 7vw, 2.7rem);
+            text-transform: uppercase;
+            letter-spacing: clamp(6px, 2vw, 12px);
+            color: var(--node-bright);
+            margin: 0 0 20px;
+            font-weight: 900;
+            text-shadow: 0 0 20px rgba(74, 125, 255, 0.35);
+            background: linear-gradient(90deg, transparent, var(--node-blue), transparent);
+            background-size: 100% 1px;
+            background-repeat: no-repeat;
+            background-position: bottom;
+            padding-bottom: 15px;
+            display: inline-block;
+        }
+        .section-subheading {
+            font-size: 0.95rem;
+            color: var(--node-blue);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin: 0 0 20px;
+            font-weight: 700;
+        }
+        .flex-half .section-subheading { text-align: left; }
+        .flex-half--headings-center { text-align: center; }
+        .flex-half--headings-center .section-subheading { text-align: center; }
+        .flex-half--headings-center .sub-text { text-align: center; }
+        .flex-half--headings-center .org-list {
+            list-style: none;
+            width: fit-content;
+            max-width: 100%;
+            margin: 0 auto;
+            padding-left: clamp(28px, 12%, 20px);
+            text-align: left;
+        }
+        .flex-half--headings-center .org-list li,
+        .flex-half--headings-center .org-list .sub-text { text-align: left; }
+        section[style*="text-align:center"] .section-subheading { text-align: center; }
+        .sub-text { font-size: 0.95rem; color: #CBD5E1; line-height: 1.75; }
+        .flex-grid { display: flex; gap: 50px; align-items: center; flex-wrap: wrap; margin-bottom: 70px; }
+        .container > section.flex-grid:first-of-type {
+            min-height: calc(100vh - var(--nav-height));
+            min-height: calc(100dvh - var(--nav-height));
+            align-items: center;
+            margin-bottom: 70px;
+        }
+        .flex-half { flex: 1; min-width: 320px; }
+        .side-logo { width: 100%; max-width: 480px; height: auto; }
+        .org-list { list-style: none; padding: 0; }
+        .org-list li { margin-bottom: 14px; position: relative; padding-left: 24px; color: #CBD5E1; }
+        .org-list li::before { content: "■"; position: absolute; left: 0; color: var(--node-blue); font-size: 1.1rem; }
+        .committee-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        .member-card {
+            background: var(--glass-frost); border: 1px solid var(--border-bright);
+            padding: 30px 20px; text-align: center; border-radius: 4px;
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            opacity: 0; transform: scale(0.92);
+            transition: all 0.5s ease-out;
+        }
+        .member-card.revealed { opacity: 1; transform: scale(1); }
+        .member-card img {
+            width: 120px; height: 120px; border-radius: 50%;
+            border: 2px solid var(--node-blue); margin-bottom: 16px;
+            object-fit: cover; box-shadow: 0 0 20px rgba(74, 125, 255, 0.25);
+        }
+        .member-name { color: var(--node-bright); font-size: 1.3rem; font-weight: 800; margin-bottom: 6px; }
+        .member-role { color: var(--node-blue); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 2px; font-weight: 700; }
+        @media (max-width: 850px) {
+            .flex-grid { flex-direction: column; text-align: center; gap: 40px; }
+            .container > section.flex-grid:first-of-type {
+                flex-direction: column-reverse;
+            }
+            .container > section.flex-grid:first-of-type .section-subheading {
+                text-align: center;
+            }
+            .organizer-grid {
+                flex-direction: column !important;
+            }
+            .side-logo { max-width: 320px; }
+            .committee-grid { grid-template-columns: 1fr; }
+            h2 { font-size: 2.1rem; letter-spacing: 8px; }
+            .section-subheading { letter-spacing: 2px; }
+            .flex-half { min-width: 0; }
+        }
+        @media (max-width: 480px) {
+            .side-logo { max-width: 240px; }
+            .flex-grid { gap: 28px; margin-bottom: 50px; }
+            h2 { font-size: 1.6rem; letter-spacing: 4px; padding-bottom: 10px; }
+            .section-subheading { font-size: 0.82rem; letter-spacing: 1.5px; }
+            .sub-text { font-size: 0.9rem; line-height: 1.65; }
+            .member-card { padding: 24px 16px; }
+            .member-card img { width: 100px; height: 100px; }
+            .container > section.flex-grid:first-of-type { min-height: 0; }
+        }
+    </style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<div class="page-content">
+<div class="container">
+
+    <section class="flex-grid reveal">
+        <div class="flex-half" style="text-align:center; margin-bottom: -40px;">
+            <img src="https://cdn.kb.institute/KBI-logo-light.png" class="side-logo" alt="KBI Logo" style="max-width: 400px; margin-bottom: -20px;">
+        </div>
+        <div class="flex-half flex-half--headings-center">
+            <h2>Our Story</h2>
+            <p class="section-subheading">Foundations &amp; Vision</p>
+            <p class="sub-text">
+                Founded in 2017, the Königsberger Bridges Institute (KBI) is an Estonian non-profit inspired by the Seven Bridges of Königsberg, a problem that sparked graph theory. We connect global innovators in AI, data science, blockchain, and trust technology, fostering skills through training, competitions, and a commitment to Sustainable Development Goals.
+            </p>
+        </div>
+    </section>
+
+    <div class="divider reveal"></div>
+
+    <section class="flex-grid organizer-grid reveal">
+        <div class="flex-half flex-half--headings-center">
+            <h2>Official Organizer</h2>
+            <p class="section-subheading">Flagship Competitions</p>
+            <p class="sub-text">KBI is the official organizer of three flagship global competitions and two conferences:</p>
+            <ul class="org-list">
+                <li class="sub-text"><strong>IBCOL 2026</strong> — International Blockchain Olympiad</li>
+                <li class="sub-text"><strong>IDSOL 2026</strong> — International Data Science Olympiad</li>
+                <li class="sub-text"><strong>IQCOL 2026</strong> — International Quantum Computing Olympiad</li>
+                <li class="sub-text"><strong>EETO 2026</strong> — Eastern Emerging Technologies Olympiads</li>
+                <li class="sub-text"><strong>WETO 2026</strong> — Western Emerging Technologies Olympiads</li>
+            </ul>
+            <p class="sub-text">
+                Over the last eight years, KBI has assisted tens of thousands of participants globally from renowned education institutions including Cornell, Cambridge, Peking University, and The University of Hong Kong, leading to the development of more than 500 incubated projects globally.
+            </p>
+        </div>
+        <div class="flex-half" style="text-align:center; margin-top: 20px;">
+            <img src="https://cdn.kb.institute/eto-2026/general/others/country-wall.jpg" class="side-logo" alt="Global Reach">
+        </div>
+    </section>
+
+    <div class="divider reveal"></div>
+
+    <section style="text-align:center; padding-top:60px;" class="reveal">
+        <h2>Organizing Committee</h2>
+        <p class="section-subheading">2026 Competitions Committee Convenors</p>
+        <div class="committee-grid">
+            <div class="member-card">
+                <img src="https://cdn.kb.institute/eto-2026/general/personnel/kbi-profile-marina-danylyuk.jpg" alt="Maryna Danylyuk">
+                <div class="member-name">Maryna Danylyuk</div>
+                <div class="member-role">IBCOL</div>
+            </div>
+            <div class="member-card">
+                <img src="https://cdn.kb.institute/eto-2026/general/personnel/kbi-profile-david-fortini.jpg" alt="David Fortini">
+                <div class="member-name">David Fortini</div>
+                <div class="member-role">IDSOL</div>
+            </div>
+            <div class="member-card">
+                <img src="https://cdn.kb.institute/eto-2026/general/personnel/kbi-profile-andreea-moga.jpg" alt="Andreea Moga">
+                <div class="member-name">Andreea Moga</div>
+                <div class="member-role">IQCOL</div>
+            </div>
+        </div>
+    </section>
+
+</div>
+</div>
+
+<script>
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+            if (entry.target.querySelector('.committee-grid')) {
+                entry.target.querySelectorAll('.member-card').forEach((card, i) => {
+                    setTimeout(() => card.classList.add('revealed'), i * 200 + 100);
+                });
+            }
+        }
+    });
+}, { threshold: 0.15 });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+</script>
+<script src="js/nav.js"></script>
+<script src="js/shared.js"></script>
+</body>
+</html>
